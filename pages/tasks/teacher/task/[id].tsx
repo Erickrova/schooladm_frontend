@@ -13,6 +13,30 @@ const TeacherTask = () => {
   const {auth} = useAuth()
   const router = useRouter()
   const {id} = router.query
+
+  const deleteTask = (id:any)=>{
+    if(confirm("Are you sure you want to delete this event?")){
+
+      const token = localStorage.getItem("token")
+      if(!token){
+        console.log("something wrong")
+        return
+      }
+      if(!id){
+        console.log("something wrong")
+        return
+      }
+      const init = {
+        method:"DELETE",
+        headers:{
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/delete/${id}`,init).then(res => res.json()).then(data => alert(data.msg))
+    } 
+    }
+
   useEffect(()=>{
       const call = async () =>{
           const token = localStorage.getItem("token")
@@ -78,7 +102,9 @@ return (
         <section className="w-full overflow-hidden pt-[100px]">
           <div className='flex justify-center items-center gap-4 px-4 md:px-0'>
               <h2 className='text-3xl font-bold text-white'>{task?.title}</h2>
-
+              {auth?.rank > 1 ?(
+                <button onClick={()=> deleteTask(id)} className=' bg-red-500 hover:bg-red-700 rounded-lg px-2 py-1 text-xl text-white transition-colors text-center font-bold uppercase'>delete</button>
+              ):null}
           </div>
           <div className=' md:w-2/3 px-10 pt-10 flex flex-col md:flex-row gap-4'>
               <p className='text-sm font-bold text-white'>From: {initialDate}</p>
