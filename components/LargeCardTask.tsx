@@ -5,7 +5,7 @@ import useAuth from '../hooks/useAuth'
 const LargeCardTask = ({data}:any) => {
   const {auth}=useAuth()
   const deleteTask = (id:any)=>{
-    if(confirm("Are you sure you want to delete this event?")){
+    if(confirm("Are you sure you want to delete this task?")){
 
       const token = localStorage.getItem("token")
       if(!token){

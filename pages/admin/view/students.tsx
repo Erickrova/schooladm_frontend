@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../../components/layouts/AdminLayout'
 import { User } from '../../../helpers/interfaces'
+import LargeCardUser from '../../../components/LargeCardUser'
 
 const Students = () => {
     const [students,setStudents] = useState<Array<User>>([{}])
@@ -41,7 +42,7 @@ const Students = () => {
                         <ul className='md:w-2/3 mx-auto max-h-[500px] pr-4 overflow-y-scroll'>
                             {
                                 students.map(student => (
-                                    <li className='p-2 rounded-full w-full mb-2 text-xl font-bold bg-white'>{student.personalData?.firstName} {student.personalData?.lastName}</li>      
+                                    <LargeCardUser key={student._id} data={student} />     
                                 ))
                             }
                         </ul>
