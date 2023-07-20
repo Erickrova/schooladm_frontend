@@ -145,7 +145,7 @@ const EventTarget = () => {
                 </div>
                 <div className='md:w-1/3 px-5 flex flex-col justify-center items-center'>
                     <p className='text-2xl font-bold text-white'>{isConfirm ? "your presence was confirmed" : "confirm your presence"}</p>
-                        <button onClick={()=> confirmGuest(id,auth?._id)} className={`w-full px-2 py-1 ${isConfirm ? "bg-green-400 hover:bg-green-500" : "bg-sky-400 hover:bg-sky-500"}   text-white font-bold rounded-md cursor-pointer  transition-colors my-5 capitalize`} >{isConfirm ? "disconfirm" : "confirm"}</button>
+                        <button onClick={()=> confirmGuest(id,auth?._id)} className={`w-full px-2 py-1 ${isConfirm ? "bg-green-400 hover:bg-green-500" : "bg-red-400 hover:bg-red-500"}   text-white font-bold rounded-md cursor-pointer  transition-colors my-5 capitalize`} >{isConfirm ? "disconfirm" : "confirm"}</button>
                 </div>
             </div>
           </section>
