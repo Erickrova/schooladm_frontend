@@ -9,11 +9,12 @@ const EventTarget = () => {
     const [event,setEvent] = useState<Event>()
     const [initialDate,setInitialDate] = useState<string>("")
     const [finalDate,setFinalDate] = useState<string>("")
+    const [isConfirm,setIsConfirm] = useState<boolean>(true)
     const {auth,loading} = useAuth()
     const router = useRouter()
     const {id} = router.query
 
-    const deleteEvent = (id:any)=>{
+    const deleteEvent = async (id:any)=>{
       if(confirm("Are you sure you want to delete this event?")){
   
         const token = localStorage.getItem("token")
@@ -36,7 +37,30 @@ const EventTarget = () => {
       }
         
       }
-
+    const confirmGuest = async (id:any,uid:any)=>{
+      const token = localStorage.getItem("token")
+        if(!token){
+          console.log("something wrong")
+          return
+        }
+        if(!id){
+          console.log("something wrong")
+          return
+        }
+        const init = {
+          method:"PUT",
+          headers:{
+            'Content-Type':'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        }
+        const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/event/confirm/guest/${id}/${uid}`,init).then(res => res.json()).then(data => data)
+        if(data?.status == true){
+          setIsConfirm(true)
+        }else{
+          setIsConfirm(false)
+        }
+    }
 
     useEffect(()=>{
         const call = async () =>{
@@ -68,7 +92,18 @@ const EventTarget = () => {
         const realfinaldate = finaldate.split("T")[0]
         setInitialDate(realinitialdate)
         setFinalDate(realfinaldate)
-        console.log(event)
+      }
+    },[event])
+    useEffect(()=>{
+      if(event?._id && event?.confirmGuests){
+        const confirmed = event?.confirmGuests.some(guest => guest == auth?._id)
+        if(confirmed){
+          setIsConfirm(true)
+        }else{
+          setIsConfirm(false)
+        }
+      }else{
+        setIsConfirm(false)
       }
     },[event])
   return (
@@ -109,10 +144,8 @@ const EventTarget = () => {
                     </div>
                 </div>
                 <div className='md:w-1/3 px-5 flex flex-col justify-center items-center'>
-                    <p className='text-2xl font-bold text-white'>confirm your presence</p>
-                    <form className='flex flex-col justify-center items-center'>
-                        <input className="w-full px-2 py-1 bg-sky-400 text-white font-bold rounded-md cursor-pointer hover:bg-sky-500 transition-colors my-5" type="submit" value="Confirm" />
-                    </form>
+                    <p className='text-2xl font-bold text-white'>{isConfirm ? "your presence was confirmed" : "confirm your presence"}</p>
+                        <button onClick={()=> confirmGuest(id,auth?._id)} className={`w-full px-2 py-1 ${isConfirm ? "bg-green-400 hover:bg-green-500" : "bg-sky-400 hover:bg-sky-500"}   text-white font-bold rounded-md cursor-pointer  transition-colors my-5 capitalize`} >{isConfirm ? "disconfirm" : "confirm"}</button>
                 </div>
             </div>
           </section>

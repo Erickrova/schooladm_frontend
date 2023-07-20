@@ -52,7 +52,8 @@ export interface Event {
     _id?:string,
     title?:string,
     description?:string,
-    eventCreator?:Array<Object>,
+    eventCreator?:Array<object>,
+    confirmGuests?:Array<string> | Array<User>,
     students?:Array<Object>,
     initialDate?:string,
     finalDate?:string
