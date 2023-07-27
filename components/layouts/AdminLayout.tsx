@@ -28,6 +28,7 @@ const AdminLayout = ({children}:any) => {
                   <Link href={"/admin/create/career"} className=' text-sm py-1 text-white hover:text-gray-300 transition-colors capitalize '>create careers</Link>
                   <Link href={"/admin/create/semester"} className=' text-sm py-1 text-white hover:text-gray-300 transition-colors capitalize '>create semesters</Link>
                   <h2 className=' font-bold text-lg text-white hover:text-gray-300 transition-colors capitalize '>add</h2>
+                  <Link href={"/admin/add/subject-to-semester"} className=' text-sm py-1 text-white hover:text-gray-300 transition-colors capitalize '>add subject to semester</Link>
                   <h2 className=' font-bold text-lg text-white hover:text-gray-300 transition-colors capitalize '>update</h2>
                   </nav>
               <div className='md:w-5/6 h-screen overflow-y-scroll'>
