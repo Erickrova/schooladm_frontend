@@ -19,7 +19,15 @@ const ProfileLayout = ({children}:any) => {
                 <div className='w-32 h-32 aspect-square rounded-full bg-white border-red-400 border-2 '></div>
                 <div>
                     <h2 className='text-xl font-bold text-white'>{`${personalData?.firstName} ${personalData?.lastName}`}</h2>
-                    <p className='text-gray-200'>{`${personalData?.career?.name}`}</p>
+                    {
+                      auth?.rank == 1 ?(
+                        <p className='text-gray-200'>{`${personalData?.career?.name}`}</p>
+                        ):auth?.rank == 2 ?(
+                          <p className='text-gray-200'>{`Teacher`}</p>
+                          ):auth?.rank == 3 ? (
+                            <p className='text-gray-200'>{`Admin`}</p>
+                        ):null
+                    }
                 </div>
             </div>
             <div>

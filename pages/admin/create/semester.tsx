@@ -66,7 +66,8 @@ const CreateSemester = () => {
   
     const handleCreateSemester = async (e:any):Promise<void> =>{
       e.preventDefault()
-      if(!career || !teacher || !student || !subject || !semester){
+      const token = localStorage.getItem("token")
+      if(!career || !teacher || !student || !subject || !semester || !token){
         console.error("something is wrong")
         return
       }
@@ -82,6 +83,7 @@ const CreateSemester = () => {
           method:"POST",
           headers:{
             'Content-Type':'application/json',
+            Authorization: `Bearer ${token}`
           },
           mode: 'cors',
           body:JSON.stringify(semesterObject)

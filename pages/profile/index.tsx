@@ -18,14 +18,19 @@ const Profile = () => {
                 <label className="text-xl font-bold text-white">Last Names</label>
                 <input type="text" value={personalData?.lastName || "Student last names" } readOnly className="p-2 rounded-full" placeholder="Student last names" />
               </div>
-              <div className="flex justify-center flex-col">
-                <label className="text-xl font-bold text-white">Career</label>
-                <input type="text" value={personalData?.career?.name || "Student career"} readOnly className="p-2 rounded-full" placeholder="Student career" />
-              </div>
-              <div className="flex justify-center flex-col">
+              {profile?.rank == 1 ?(
+                <div className="flex justify-center flex-col">
+                  <label className="text-xl font-bold text-white">Career</label>
+                  <input type="text" value={personalData?.career?.name || "Student career"} readOnly className="p-2 rounded-full" placeholder="Student career" />
+                </div>
+              ):null}
+              {profile?.rank == 1 ?(
+
+                <div className="flex justify-center flex-col">
                 <label className="text-xl font-bold text-white">Semester</label>
                 <input type="text" value={personalData?.semester || "Student semester"} readOnly className="p-2 rounded-full" placeholder="Student semester" />
               </div>
+                ):null}
               <div className="flex justify-center flex-col">
                 <label className="text-xl font-bold text-white">Document type</label>
                 <input type="text" value={personalData?.documentType || "Student document type"} readOnly className="p-2 rounded-full" placeholder="Student document type" />
