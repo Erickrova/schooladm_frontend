@@ -41,7 +41,7 @@ const AboutCareer = () => {
 
               {
                semesters.length ? semesters.map ( semester=>(
-                  <table className='md:w-2/3 md:mx-auto w-full'>
+                  <table className='md:w-2/3 md:mx-auto w-full mb-2'>
                     <tr className='border border-collapse border-black'>
                       <th className='text-black text-center p-2 border border-black  bg-gray-400'>semester</th>
                       <th className='text-black text-center p-2 border border-black bg-gray-400'>subjects</th>
