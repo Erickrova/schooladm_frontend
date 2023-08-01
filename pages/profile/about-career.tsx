@@ -39,9 +39,10 @@ const AboutCareer = () => {
           <div className='pb-4'>
           <h2 className="text-center text-3xl text-white font-black my-5">Semesters' Subjects</h2>
 
+          <table className='md:w-2/3 md:mx-auto w-full mb-2'>
               {
                semesters.length ? semesters.map ( semester=>(
-                  <table className='md:w-2/3 md:mx-auto w-full mb-2'>
+                <>
                     <tr className='border border-collapse border-black'>
                       <th className='text-black text-center p-2 border border-black  bg-gray-400'>semester</th>
                       <th className='text-black text-center p-2 border border-black bg-gray-400'>subjects</th>
@@ -54,10 +55,11 @@ const AboutCareer = () => {
                         </tr>
                       ))
                     }
-                  </table>
+                    </>
                 )
                ):null 
               }
+                  </table>
           </div>
       </div>
     </ProfileLayout>
