@@ -67,11 +67,7 @@ const CreateSemester = () => {
     const handleCreateSemester = async (e:any):Promise<void> =>{
       e.preventDefault()
       const token = localStorage.getItem("token")
-      if(!token){
-        console.error("something is wrong")
-        return
-      }
-      if(!career || !teacher || !student || !subject || !semester){
+      if(!career || !teacher || !student || !subject || !semester || !token){
         console.error("something is wrong")
         return
       }
