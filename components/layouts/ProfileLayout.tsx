@@ -32,9 +32,20 @@ const ProfileLayout = ({children}:any) => {
             </div>
             <div>
               <nav className='flex gap-4 justify-evenly p-2 border-y-2 mt-4'>
+              
               <Link href={"/profile"} className="text-white hover:text-red-100 transition-colors">Personal Data</Link>
-                <Link href={"/profile/about-career"} className="text-white hover:text-red-100 transition-colors">About Career</Link>
-                <Link href={"/profile/qualifications"} className="text-white hover:text-red-100 transition-colors">qualifications</Link>
+              {
+                auth.rank == 1 ? (
+                  
+                  <Link href={"/profile/about-career"} className="text-white hover:text-red-100 transition-colors">About Career</Link>
+                  ):null
+                }
+                {
+                  auth.rank == 1 ? (
+
+                    <Link href={"/profile/qualifications"} className="text-white hover:text-red-100 transition-colors">qualifications</Link>
+                  ):null
+                }
               </nav>
             </div>
             {children}
