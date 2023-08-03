@@ -3,13 +3,14 @@ import Layout from '../../../components/layouts/Layout'
 import { useRouter } from 'next/router'
 import useAuth from '../../../hooks/useAuth'
 import BackRoute from '../../../components/layouts/BackRoute'
-import { Event } from '../../../helpers/interfaces'
+import { Event, User } from '../../../helpers/interfaces'
 
 const EventTarget = () => {
     const [event,setEvent] = useState<Event>()
     const [initialDate,setInitialDate] = useState<string>("")
     const [finalDate,setFinalDate] = useState<string>("")
     const [isConfirm,setIsConfirm] = useState<boolean>(true)
+    const [pendingToConfirm,setPendingToConfirm] = useState<Array<User>>([])
     const {auth,loading} = useAuth()
     const router = useRouter()
     const {id} = router.query
@@ -61,15 +62,10 @@ const EventTarget = () => {
           setIsConfirm(false)
         }
     }
-
     useEffect(()=>{
         const call = async () =>{
             const token = localStorage.getItem("token")
-            if(!token){
-              console.log("something wrong")
-              return
-            }
-            if(!id){
+            if(!token || !id){
               console.log("something wrong")
               return
             }
@@ -93,8 +89,6 @@ const EventTarget = () => {
         setInitialDate(realinitialdate)
         setFinalDate(realfinaldate)
       }
-    },[event])
-    useEffect(()=>{
       if(event?._id && event?.confirmGuests){
         const confirmed = event?.confirmGuests.some(guest => guest == auth?._id)
         if(confirmed){
@@ -105,7 +99,12 @@ const EventTarget = () => {
       }else{
         setIsConfirm(false)
       }
+      if(event?.guests && event?.confirmGuests){
+        const pendingPresences = event.guests.filter((user:User) => !event.confirmGuests.some((usr:User) => user._id == usr._id))
+        setPendingToConfirm(pendingPresences)
+      }
     },[event])
+
   return (
     auth?._id && !loading ?  (
     <Layout>
@@ -115,7 +114,6 @@ const EventTarget = () => {
             <div className='flex justify-center items-center gap-4 px-4 md:px-0'>
                 <h2 className='text-3xl font-bold text-white'>{event?.title}</h2>
                 {auth?.rank > 2 ?(
-
                   <button onClick={()=> deleteEvent(id)} className=' bg-red-500 hover:bg-red-700 rounded-lg px-2 py-1 text-xl text-white transition-colors text-center font-bold uppercase'>delete</button>
                 ):null}
             </div>
@@ -144,8 +142,30 @@ const EventTarget = () => {
                     </div>
                 </div>
                 <div className='md:w-1/3 px-5 flex flex-col justify-center items-center'>
-                    <p className='text-2xl font-bold text-white'>{isConfirm ? "your presence was confirmed" : "confirm your presence"}</p>
-                        <button onClick={()=> confirmGuest(id,auth?._id)} className={`w-full px-2 py-1 ${isConfirm ? "bg-green-400 hover:bg-red-500" : "bg-red-400 hover:bg-green-500"}   text-white font-bold rounded-md cursor-pointer  transition-colors my-5 capitalize`} >{isConfirm ? "disconfirm" : "confirm"}</button>
+                  <p className='text-2xl font-bold text-white'>{isConfirm ? "your presence was confirmed" : "confirm your presence"}</p>
+                  <button onClick={()=> confirmGuest(id,auth?._id)} className={`w-full px-2 py-1 ${isConfirm ? "bg-green-400 hover:bg-red-500" : "bg-red-400 hover:bg-green-500"}   text-white font-bold rounded-md cursor-pointer  transition-colors my-5 capitalize`} >{isConfirm ? "disconfirm" : "confirm"}</button>
+                  {
+                    auth.rank > 1 ? (
+                      <div className='w-full px-2 py-1'>
+                        <h2 className='text-2xl font-bold text-white'>Confirmed Presences</h2>
+                        <div className='w-full px-2 py-1 max-h-52 overflow-y-auto'>
+                          {
+                            event?.confirmGuests?.map((user:User) => (
+                              <p className='p-2 rounded-md bg-gray-100 mb-1'>{user.personalData?.firstName} {user.personalData?.lastName}</p>
+                            ))
+                          }
+                        </div>
+                        <p className='text-2xl font-bold text-white'>Pending To Confirm Presence</p>
+                        <div className='w-full px-2 py-1 max-h-52 overflow-y-auto'>
+                          {
+                            pendingToConfirm.map((user:User) => (
+                              <p className='p-2 rounded-md bg-gray-100 mb-1'>{user.personalData?.firstName} {user.personalData?.lastName}</p>
+                              ))
+                          }
+                        </div>
+                      </div>
+                    ):null
+                  }
                 </div>
             </div>
           </section>

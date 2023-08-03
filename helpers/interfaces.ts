@@ -1,11 +1,11 @@
 export interface Auth extends Object {
-    _id?:string,
+    _id:string,
     name?:string,
     rank?:Number
 
 }
 export interface User extends Object{
-    _id?:string,
+    _id:string,
     personalData?:{
         firstName?:string,
         lastName?:string,
@@ -14,14 +14,14 @@ export interface User extends Object{
 }
 
 export interface Careers {
-    _id?:string,
+    _id:string,
     name?:string,
     description?:string,
-    semesters?:Array<Object>
+    semesters:Array<Semester>
 }
 
 export interface Subject {
-    _id?:string,
+    _id:string,
     name?:string,
     description?:string,
     teachers?:Array<Object>,
@@ -29,7 +29,7 @@ export interface Subject {
     taks?:Array<Object>
 }
 export interface Task {
-    _id?:string,
+    _id:string,
     title?:string,
     description?:string,
     teacher?:Array<Object>,
@@ -49,12 +49,20 @@ export interface CompletedTask {
     qualification?:number
 }
 export interface Event {
-    _id?:string,
+    _id:string,
     title?:string,
     description?:string,
     eventCreator?:Array<object>,
-    confirmGuests?:Array<string> | Array<User>,
-    students?:Array<Object>,
+    confirmGuests:Array<User>,
+    guests:Array<User>,
     initialDate?:string,
     finalDate?:string
+}
+export interface Semester {
+    _id:string,
+    semester?:number,
+    Career?:Careers,
+    teachers:Array<User>,
+    students:Array<User>,
+    subjects:Array<Subject>,
 }

@@ -1,95 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../../components/layouts/AdminLayout'
-import { useRouter } from 'next/router'
-import { Careers } from '../../../helpers/interfaces'
+import { Careers, Semester } from '../../../helpers/interfaces'
 import { User } from '../../../helpers/interfaces'
-import { Subject } from '../../../helpers/interfaces'
 
 const CreateEvent = () => {
 
-    const [careers,setCareers] = useState<Array<Careers>>([{}])
-    const [students,setStudents] = useState([{}])
-    const [teachers,setTeachers] = useState<Array<User>>([{}])
-    const [subjects,setSubjects] = useState<Array<Subject>>([{}])
-
+    const [careers,setCareers] = useState<Array<Careers>>([])
+    const [teachers,setTeachers] = useState<Array<User>>([])
     
-    const [eventCreator,setEventCreator] = useState<User>()
-    const [guests,setGuests] = useState<String>("")
-    const [subject,setSubject] = useState<String>("")
-    const [semester,setSemester] = useState<Number>(0)
+    const [eventCreator,setEventCreator] = useState<string>()
     const [title,setTitle] = useState<String>("")
     const [description,setDescription] = useState<String>("")
     const [initialDate,setInitialDate] = useState<String>("")
     const [finalDate,setFinalDate] = useState<String>("")
-
-
-    const semesterOptions = [
-      {
-          value:1,
-          opt:"1"
-      },
-      {
-          value:2,
-          opt:"2"
-      },
-      {
-          value:3,
-          opt:"3"
-      },
-      {
-          value:4,
-          opt:"4"
-      },
-      {
-          value:5,
-          opt:"5"
-      },
-      {
-          value:6,
-          opt:"6"
-      },
-      {
-          value:7,
-          opt:"7"
-      },
-      {
-          value:8,
-          opt:"8"
-      },
-      {
-          value:9,
-          opt:"9"
-      },
-      {
-          value:10,
-          opt:"10"
-      },
-      {
-          value:11,
-          opt:"11"
-      },
-      {
-          value:12,
-          opt:"12"
-      }
-  ]
+    const [guestsListShow,setGuestsListShow] = useState<Array<Object>>([])
   
-    const handleRegisterUser = async (e:any):Promise<void> =>{
+    const handleCreateEvent = async (e:any):Promise<void> =>{
       e.preventDefault()
       const token = localStorage.getItem("token")
-      if(!guests || !subject || !semester || !title || !description || !initialDate || !finalDate){
+      if(!token || !title || !description || !initialDate || !finalDate){
         console.error("something is wrong")
         return
       }
-      if(!token){
-        console.log("!something wrong")
-        return
-      }
+      let guests:Array<string> = []
+      guestsListShow.forEach((semester:any) =>{
+        semester.semester.students.forEach((student:string)=>{
+          if(!guests.includes(student)){
+            guests.push(student)
+          }
+        })
+      })
       const eventData:Object = {
-        guests,
+        guestsList:guests,
         eventCreator,
-        subject,
-        semester,
         title,
         description,
         initialDate,
@@ -108,14 +51,12 @@ const CreateEvent = () => {
         }
         const data:any = await fetch("http://localhost:4000/api/event/create",init).then((res) => res.json()).then((data:any) => data)
         if(data?.state){
-          setGuests("")
           setEventCreator("")
-          setSubject("")
-          setSemester(0)
           setTitle("")
           setDescription("")
           setInitialDate("")
           setFinalDate("")
+          setGuestsListShow([])
         }
         alert(data?.msg)
         
@@ -124,7 +65,29 @@ const CreateEvent = () => {
       }
       
     }
-
+    const handleAddGuestToList = (guest:string) =>{
+      if(!guestsListShow.some((semester:any) => semester.semester._id == guest)){
+        const career :Careers |undefined = careers.find((career:Careers) => career.semesters.some((semester:Semester) => semester._id == guest) )
+        const semester = career?.semesters.find(semester => semester._id == guest)
+        setGuestsListShow([...guestsListShow,{career,semester}])
+      }
+    }
+    const handleAddAll = (guest:string)=>{
+      const career:Careers | undefined = careers.find(career => career._id == guest)
+      const listShow = career?.semesters
+      listShow?.forEach(element=>{
+        if(!guestsListShow.some((semest:any) => semest.semester._id == element._id)){
+          setGuestsListShow(prev => [...prev,{career,semester:element}])
+        }
+      }) 
+    }
+    const handleRemoveGuestOfList = (guest:string) =>{
+      const newGuestListShow = guestsListShow.filter((gues:any) => gues.semester._id != guest)
+      setGuestsListShow(newGuestListShow)
+    }
+    const revomeAllGuests = ()=>{
+      setGuestsListShow([])
+    }
     useEffect(()=>{
       const call = async () =>{
         const token = localStorage.getItem("token")
@@ -140,24 +103,31 @@ const CreateEvent = () => {
           }
         }
         fetch("http://localhost:4000/api/career/get-careers",init).then(res => res.json()).then(data => setCareers(data))
-        fetch("http://localhost:4000/api/user/get-students",init).then(res => res.json()).then(data => setStudents(data))
         fetch("http://localhost:4000/api/user/get-teachers",init).then(res => res.json()).then(data => setTeachers(data))
-        fetch("http://localhost:4000/api/subject/get-subjects",init).then(res => res.json()).then(data => setSubjects(data))
       }
       call()
 
     },[])
+
   return (
     <AdminLayout>
       <div className="min-h-screen w-full bg-sky-600">
         <section className="w-full pt-[50px] pb-10">
-          <form onSubmit={handleRegisterUser} className=" mx-4 md:mx-auto md:w-1/2">
+          <form onSubmit={handleCreateEvent} className=" mx-4 md:mx-auto md:w-1/2">
             <legend className="text-center text-4xl text-white font-black mb-10">Create an event</legend>
-            <select value={String(guests)} onChange={e=> setGuests(String(e.target.value))} className="p-2 rounded-full w-full mb-2">
+            <select value={""} className="p-2 rounded-full w-full mb-2">
                   <option value={""} disabled>Select a guests </option>
-                  {careers.map(careerr => (
-                    <option key={String(careerr?._id)} value={String(careerr?._id)}>{careerr?.name} </option>
-                  ))}
+                  {careers?.length ? careers.map(career => (
+                    <>
+                      <option key={String(career?._id)} value={String(career?._id)} onClick={()=> handleAddAll(String(career._id))}>{career?.name} all</option>
+                      {
+                        career?.semesters?.map(semester=>(
+                          <option key={String(semester?._id)} value={String(semester?._id)} onClick={()=> handleAddGuestToList(semester._id)}>{career?.name} semester {semester?.semester} </option>
+                          )
+                          )
+                        }
+                    </>
+                  )):null}
                 </select>
                 <select value={String(eventCreator)} onChange={e=> setEventCreator(String(e.target.value))} className="p-2 rounded-full w-full mb-2">
                         <option value={""}>Select event creator </option>
@@ -165,20 +135,6 @@ const CreateEvent = () => {
                             <option key={String(tch?._id)} value={String(tch?._id)}>{tch?.personalData?.firstName} {tch?.personalData?.lastName}</option>
                         ))}
                 </select>
-            <div className='flex gap-2 flex-col md:flex-row'>
-            <select value={String(subject)} onChange={e=> setSubject(String(e.target.value))} className="p-2 rounded-full w-full mb-2">
-                        <option value={0}>Select a subject </option>
-                        {subjects.map(sbj =>(
-                            <option key={String(sbj?._id)} value={String(sbj?._id)}>{sbj?.name}</option>
-                        ))}
-                </select>
-                <select value={Number(semester)} onChange={e=> setSemester(Number(e.target.value))} className="p-2 rounded-full w-full mb-2">
-                        <option value={0}>Select a semester number </option>
-                        {semesterOptions.map(semester =>(
-                            <option key={semester.value} value={semester.value}>{semester.opt}</option>
-                        ))}
-                </select>
-            </div>
             <div className="flex justify-center flex-col">
                 <label className="text-xl font-bold text-white">Title</label>
                 <input type="text" value={String(title)} onChange={e => setTitle(String(e.target.value))} className="p-2 rounded-full" placeholder="Student name" />
@@ -199,7 +155,22 @@ const CreateEvent = () => {
                 <label className="text-xl font-bold text-white">final date</label>
                 <input type="date" value={String(finalDate)} onChange={e => setFinalDate(String(e.target.value))} />
               </div>
-              <input type="submit" value="Create Task" className="text-xl font-bold text-white px-4 py-2 text-center bg-red-400 hover:bg-red-500 transition-colors cursor-pointer w-full rounded-full mt-4" />
+              <div className="flex justify-center flex-col">
+                <label className="text-xl font-bold text-white">Guests to add:</label>
+                <ul>
+                {guestsListShow.map((guest:any) =>(
+                    <li key={guest._id} className='p-1 rounded-md bg-gray-400 bg-opacity-50 flex items-center justify-between my-1 gap-2'>
+                        <p className='text-white capitalize'>{guest?.career?.name} semester {guest.semester.semester}</p>
+                        <button type='button' onClick={()=>guest?.semester?._id && handleRemoveGuestOfList(guest.semester._id)} className='p-2 w-10 h-10 m-0 text-white font-bold flex items-center justify-center rounded-full bg-red-400 hover:bg-red-500 hover:uppercase transition-colors'>x</button>
+                    </li>        
+                    ))}
+                      </ul>
+              </div>
+                    {guestsListShow.length ? (
+
+                      <button type='button' onClick={revomeAllGuests} className='p-2 m-0 text-white font-bold flex items-center justify-center rounded-full bg-red-400 hover:bg-red-500 uppercase transition-colors'>delete all</button>
+                      ):null}
+              <input type="submit" value="Create Event" className="text-xl font-bold text-white px-4 py-2 text-center bg-red-400 hover:bg-red-500 transition-colors cursor-pointer w-full rounded-full mt-4" />
           </form>
         </section>
       </div>
