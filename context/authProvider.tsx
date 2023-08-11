@@ -5,7 +5,11 @@ const AuthContext = createContext<any|null>(null);
 
 const AuthProvider = ({children}:any)=>{
     
-    const [auth,setAuth] = useState<Auth>({})
+    const [auth,setAuth] = useState<Auth>({
+        _id:"",
+        name:"",
+        rank:0
+    })
     const [profile,setProfile] = useState<Object>({})
     const [loading,setLoading] = useState<Boolean>(true)
 
@@ -19,7 +23,8 @@ const AuthProvider = ({children}:any)=>{
     }
 
     useEffect(()=>{
-        const autenticando = async ()=>{
+        const authenticating = async ()=>{
+            // checking if it's authenticated with a token
             const token = localStorage.getItem("token")
             if(!token) {
                 setLoading(false)
@@ -50,10 +55,11 @@ const AuthProvider = ({children}:any)=>{
             }
             
         }
-        autenticando()
+        authenticating()
     },[])
     useEffect(()=>{
         try {
+            // getting user profile 
             if(auth._id){
                 fetch(`http://localhost:4000/api/user/get-user/${auth?._id}`).then(res => res.json()).then(res => setProfile(res))
             }

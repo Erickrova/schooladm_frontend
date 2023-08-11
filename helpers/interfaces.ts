@@ -66,3 +66,8 @@ export interface Semester {
     students:Array<User>,
     subjects:Array<Subject>,
 }
+export interface TaskSent {
+    tsk:string,
+    id:string,
+    auth:Auth
+}

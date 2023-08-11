@@ -104,7 +104,7 @@ const EventTarget = () => {
         setPendingToConfirm(pendingPresences)
       }
     },[event])
-
+    
   return (
     auth?._id && !loading ?  (
     <Layout>
