@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../../components/layouts/AdminLayout'
 import { Task } from '../../../helpers/interfaces'
 import LargeCardTask from '../../../components/LargeCardTask'
+import formatDate from '../../../helpers/formatDate'
+import { comparerDates } from '../../../helpers/comparerDates'
 
 const Tasks = () => {
-    const [tasks,setTasks] = useState<Array<Task>>([{}])
+    const [tasks,setTasks] = useState<Array<Task>>([])
+    const [tasksShow,setTasksShow] = useState<Array<Task>>([])
     useEffect(()=>{
         const call = async () =>{
           const token = localStorage.getItem("token")
@@ -23,6 +26,20 @@ const Tasks = () => {
         call()
   
       },[])
+      useEffect(()=>{
+        if(tasks){
+            // filtering the events whose finalDate has already passed
+            const activeTasks = tasks.filter(task =>{
+                if(task.finalDate){
+                    const taskDate = formatDate(task.finalDate).split("/").reverse().join("-")
+                    const currentDate = formatDate(String(Date.now())).split("/").reverse().join("-")
+                    const result = comparerDates(currentDate,taskDate)
+                    if(result == 1 || result == 0 ) task
+                }
+            })
+            setTasksShow(activeTasks)
+        }
+      },[tasks])
   return (
     <AdminLayout>
         <section className="h-full overflow-hidden w-full bg-sky-600">
@@ -38,12 +55,11 @@ const Tasks = () => {
             </form>
             <div>
                 {
-                    tasks?.length ? (
+                    tasksShow?.length ? (
                         <ul className='md:w-2/3 mx-auto max-h-[500px] pr-4 overflow-y-auto'>
                             {
-                                tasks.map(task => (
+                                tasksShow.map(task => (
                                     <LargeCardTask key={task?._id} data={task} />
-                                    // <li className='p-2 rounded-full w-full mb-2 text-xl font-bold bg-white'>{task?.title}</li>      
                                 ))
                             }
                         </ul>

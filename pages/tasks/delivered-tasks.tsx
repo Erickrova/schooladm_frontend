@@ -5,9 +5,12 @@ import { CompletedTask, Task } from '../../helpers/interfaces'
 import useAuth from '../../hooks/useAuth'
 import LargeCardTask from '../../components/LargeCardTask'
 import TasksLayout from '../../components/layouts/TasksLayout'
+import formatDate from '../../helpers/formatDate'
+import { comparerDates } from '../../helpers/comparerDates'
 
 const DeliveredTasks = () => {
   const [tasks,setTasks] = useState<Array<Task>>([])
+  const [tasksShow,setTasksShow] = useState<Array<Task>>([])
   const [deliveredTasks,setDeliveredTasks] = useState<Array<Task>>([])
   const {auth} = useAuth()
   useEffect(()=>{
@@ -32,15 +35,29 @@ const DeliveredTasks = () => {
     const filterTasks :Array<Task> = tasks.filter(task => task?.studentsCompletedTasks?.some((completedTask:CompletedTask) => completedTask?.student == auth?._id && !completedTask.qualification) )
     setDeliveredTasks(filterTasks)
   },[tasks])
+  useEffect(()=>{
+    if(deliveredTasks){
+        // filtering the events whose finalDate has already passed
+        const activeTasks = deliveredTasks.filter(task =>{
+            if(task.finalDate){
+                const taskDate = formatDate(task.finalDate).split("/").reverse().join("-")
+                const currentDate = formatDate(String(Date.now())).split("/").reverse().join("-")
+                const result = comparerDates(currentDate,taskDate)
+                if(result == 1 || result == 0 ) task
+            }
+        })
+        setTasksShow(activeTasks)
+    }
+  },[deliveredTasks])
   return (
   <TasksLayout>
     <div>
       <h1 className="text-center text-4xl text-white font-black my-5">Delivered Tasks</h1>
       {
-            deliveredTasks?.length ? (
+            tasksShow?.length ? (
                 <ul className='md:w-2/3 mx-auto px-4'>
                     {
-                        deliveredTasks.map(task => (
+                        tasksShow.map(task => (
                             <LargeCardTask key={task?._id} data={task} />
                         ))
                     }
