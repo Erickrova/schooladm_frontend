@@ -5,9 +5,12 @@ import { Event } from '../../helpers/interfaces'
 import useAuth from '../../hooks/useAuth'
 import LargeCardEvent from '../../components/LargeCardEvent'
 import BackRoute from '../../components/layouts/BackRoute'
+import formatDate from '../../helpers/formatDate'
+import { comparerDates } from '../../helpers/comparerDates'
 
 const index = () => {
   const [events,setEvents] = useState<Array<Event>>([])
+  const [eventsShow,setEventsShow] = useState<Array<Event>>([])
   const {auth,loading} = useAuth()
 
   useEffect(()=>{
@@ -28,6 +31,20 @@ const index = () => {
       call()
 
     },[auth])
+    useEffect(()=>{
+      if(events){
+          // filtering the events whose finalDate has already passed
+          const activeEvents = events.filter(event =>{
+              if(event.finalDate){
+                  const eventDate = formatDate(event.finalDate).split("/").reverse().join("-")
+                  const currentDate = formatDate(String(Date.now())).split("/").reverse().join("-")
+                  const result = comparerDates(currentDate,eventDate)
+                  if(result == 1 || result == 0 ) event
+              }
+          })
+          setEventsShow(activeEvents)
+      }
+    },[events])
   return (
     auth?._id && !loading ?  (
       <Layout>
@@ -38,12 +55,11 @@ const index = () => {
             <h1 className="text-center text-4xl text-white font-black my-5">Events</h1>
             <div>
                 {
-                  events?.length ? (
+                  eventsShow?.length ? (
                     <ul className='md:w-2/3 mx-auto'>
                             {
-                                events.map(event => (
+                                eventsShow.map(event => (
                                   <LargeCardEvent key={event?._id} data={event} />
-                                  // <li key={String(event?._id)} className='p-2 rounded-full w-full mb-2 text-xl font-bold bg-white'>{event?.title}</li>      
                                   ))
                                 }
                         </ul>
