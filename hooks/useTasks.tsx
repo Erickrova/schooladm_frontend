@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import {TasksContext} from "../context/tasksProvider";
+import { useContext } from "react"
+import { TasksContext } from "../context/tasksProvider"
+import { TaskContext } from "../helpers/interfaces"
 
-
-const useTasks = () => {
+const useTasks = (): TaskContext => {
   return useContext(TasksContext)
 }
 
