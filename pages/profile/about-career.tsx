@@ -1,4 +1,3 @@
-import { profileEnd } from "console"
 import ProfileLayout from "../../components/layouts/ProfileLayout"
 import useAuth from "../../hooks/useAuth"
 import { useEffect, useState } from "react"

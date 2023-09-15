@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { SubjectContext } from "../context/subjectProvider"
 
-const useSubject = () => {
+const useSubject: any = () => {
   return useContext(SubjectContext)
 }
 

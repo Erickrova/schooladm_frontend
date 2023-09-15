@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { EventContext } from "../context/eventProvider"
 
-const useEvent = () => {
+const useEvent: any = () => {
   return useContext(EventContext)
 }
 

@@ -10,7 +10,7 @@ const EventTarget = () => {
   const [event, setEvent] = useState<Event>()
   const [initialDate, setInitialDate] = useState<string>("")
   const [finalDate, setFinalDate] = useState<string>("")
-  const [isConfirm, setIsConfirm] = useState<boolean>(true)
+  const [isConfirm, setIsConfirm] = useState<boolean>(false)
   const [pendingToConfirm, setPendingToConfirm] = useState<Array<User>>([])
   const { deleteEvent, confirmGuest, getEvent } = useEvent()
   const { auth, loading } = useAuth()
@@ -53,24 +53,26 @@ const EventTarget = () => {
       const realfinaldate = finaldate.split("T")[0]
       setInitialDate(realinitialdate)
       setFinalDate(realfinaldate)
-    }
-    // setting if userConfirm its presence
-    if (event?._id && event?.confirmGuests) {
-      const confirmed = event?.confirmGuests.some((guest) => guest == auth?._id)
-      if (confirmed) {
-        setIsConfirm(true)
+      if (event?._id && event?.confirmGuests) {
+        const confirmed = event?.confirmGuests.some(
+          (guest) => guest._id == auth?._id,
+        )
+        if (confirmed) {
+          setIsConfirm(true)
+        } else {
+          setIsConfirm(false)
+        }
       } else {
         setIsConfirm(false)
       }
-    } else {
-      setIsConfirm(false)
-    }
-    if (event?.guests && event?.confirmGuests) {
-      const pendingPresences = event.guests.filter(
-        (user: User) =>
-          !event.confirmGuests.some((usr: User) => user._id == usr._id),
-      )
-      setPendingToConfirm(pendingPresences)
+      // setting if userConfirm its presence
+      if (event?.guests && event?.confirmGuests) {
+        const pendingPresences = event.guests.filter(
+          (user: User) =>
+            !event.confirmGuests.some((usr: User) => user._id == usr._id),
+        )
+        setPendingToConfirm(pendingPresences)
+      }
     }
   }, [event, auth])
 

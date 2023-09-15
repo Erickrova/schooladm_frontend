@@ -11,8 +11,8 @@ const AdminLateralNavBar = ({ personalData }: any): JSX.Element => {
   return (
     <nav
       id="adminLateralNavBar"
-      className="pt-6 md:pt-10 md:bg-gray-700 md:w-1/6
-      fixed top-16 md:static w-full md:z-10 md:overflow-y-auto
+      className="pt-16 md:pt-20 md:bg-gray-700 md:w-1/6
+      fixed top-16 md:top-0 md:static w-full md:z-10 md:overflow-y-auto
       "
     >
       <button

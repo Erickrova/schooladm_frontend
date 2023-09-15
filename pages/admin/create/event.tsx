@@ -17,6 +17,7 @@ const CreateEvent = () => {
   const [finalDate, setFinalDate] = useState<String>("")
   const [guestsListShow, setGuestsListShow] = useState<Array<Object>>([])
   const { createEvent } = useEvent()
+
   const handleCreateEvent = async (e: any): Promise<void> => {
     e.preventDefault()
     if (!title || !description || !initialDate || !finalDate) {
@@ -65,6 +66,7 @@ const CreateEvent = () => {
     }
   }
   const handleAddAll = (guest: string) => {
+    console.log("hola")
     const career: Careers | undefined = careers.find(
       (career: Careers) => career._id == guest,
     )
@@ -88,6 +90,16 @@ const CreateEvent = () => {
   const revomeAllGuests = () => {
     setGuestsListShow([])
   }
+  const handleChangeGuests = (t: string) => {
+    if (t.startsWith("all")) {
+      const carrerId = t.split(" ")[1]
+      handleAddAll(carrerId)
+    }
+    if (t.startsWith("semester")) {
+      const semesterId = t.split(" ")[1]
+      handleAddGuestToList(semesterId)
+    }
+  }
 
   return (
     <AdminLayout>
@@ -100,31 +112,42 @@ const CreateEvent = () => {
             <legend className="text-center text-4xl text-white font-black mb-10">
               Create an event
             </legend>
-            <select value={""} className="p-2 rounded-full w-full mb-2">
+            <select
+              value={""}
+              onChange={(e) => handleChangeGuests(e.target.value)}
+              className="p-2 rounded-full w-full mb-2"
+            >
               <option value={""} disabled>
                 Select a guests{" "}
               </option>
+              {
+                // Adding all of a career
+              }
               {careers?.length
                 ? careers.map((career: Careers) => (
-                    <>
-                      <option
-                        key={String(career?._id)}
-                        value={String(career?._id)}
-                        onClick={() => handleAddAll(String(career._id))}
-                      >
-                        {career?.name} all
-                      </option>
-                      {career?.semesters?.map((semester) => (
+                    <option
+                      key={String(career?._id)}
+                      value={`all ${career?._id}`}
+                    >
+                      {career?.name} all
+                    </option>
+                  ))
+                : null}
+              {
+                // Adding all of a semester
+              }
+              {careers?.length
+                ? careers.map(
+                    (career: Careers) =>
+                      career?.semesters?.map((semester) => (
                         <option
                           key={String(semester?._id)}
-                          value={String(semester?._id)}
-                          onClick={() => handleAddGuestToList(semester._id)}
+                          value={`semester ${semester?._id}`}
                         >
                           {career?.name} semester {semester?.semester}{" "}
                         </option>
-                      ))}
-                    </>
-                  ))
+                      )),
+                  )
                 : null}
             </select>
             <select
@@ -188,26 +211,29 @@ const CreateEvent = () => {
                 Guests to add:
               </label>
               <ul>
-                {guestsListShow.map((guest: any) => (
-                  <li
-                    key={guest._id}
-                    className="p-1 rounded-md bg-gray-400 bg-opacity-50 flex items-center justify-between my-1 gap-2"
-                  >
-                    <p className="text-white capitalize">
-                      {guest?.career?.name} semester {guest.semester.semester}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        guest?.semester?._id &&
-                        handleRemoveGuestOfList(guest.semester._id)
-                      }
-                      className="p-2 w-10 h-10 m-0 text-white font-bold flex items-center justify-center rounded-full bg-red-400 hover:bg-red-500 hover:uppercase transition-colors"
-                    >
-                      x
-                    </button>
-                  </li>
-                ))}
+                {guestsListShow?.length
+                  ? guestsListShow.map((guest: any) => (
+                      <li
+                        key={guest.semester._id}
+                        className="p-1 rounded-md bg-gray-400 bg-opacity-50 flex items-center justify-between my-1 gap-2"
+                      >
+                        <p className="text-white capitalize">
+                          {guest?.career?.name} semester{" "}
+                          {guest.semester.semester}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            guest?.semester?._id &&
+                            handleRemoveGuestOfList(guest.semester._id)
+                          }
+                          className="p-2 w-10 h-10 m-0 text-white font-bold flex items-center justify-center rounded-full bg-red-400 hover:bg-red-500 hover:uppercase transition-colors"
+                        >
+                          x
+                        </button>
+                      </li>
+                    ))
+                  : null}
               </ul>
             </div>
             {guestsListShow.length ? (

@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { CareerContext } from "../context/careerProvicer"
 
-const useCareer = () => {
+const useCareer: any = () => {
   return useContext(CareerContext)
 }
 

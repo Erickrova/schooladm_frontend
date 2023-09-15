@@ -11,7 +11,7 @@ const AdminLayout = ({ children }: ChildrenProps) => {
     <Layout>
       <section className="w-full flex flex-col md:flex-row h-screen overflow-hidden relative">
         <AdminLateralNavBar personalData={personalData} />
-        <div className="md:w-5/6 h-screen overflow-y-auto bg-sky-600 pt-16 md:pt-0">
+        <div className="md:w-5/6 h-full overflow-y-auto bg-sky-600 pt-16 md:pt-6">
           {children}
         </div>
       </section>

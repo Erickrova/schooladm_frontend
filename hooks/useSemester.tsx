@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { SemesterContext } from "../context/semesterProvider"
 
-const useSemester = () => {
+const useSemester: any = () => {
   return useContext(SemesterContext)
 }
 

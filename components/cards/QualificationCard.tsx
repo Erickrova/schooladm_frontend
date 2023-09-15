@@ -8,7 +8,10 @@ const QualificationCard = ({ data, task }: any) => {
       className="w-full bg-white rounded-lg flex gap-2 px-2 py-1 text-xl mb-2 my-2"
     >
       <div className="w-2/3">
-        <p className="text-gray-800 hover:text-gray-500 transition-colors">
+        <p
+          data-testid="qualificationcardtitle"
+          className="text-gray-800 hover:text-gray-500 transition-colors"
+        >
           {data.title}
         </p>
         <p className="text-sm text-gray-800 hover:text-gray-500 transition-colors">

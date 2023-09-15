@@ -19,7 +19,7 @@ const Layout = ({ children }: ChildrenProps): JSX.Element => {
       ) : (
         <>
           <Header />
-          <main className="pt-6">{children}</main>
+          <main>{children}</main>
         </>
       )}
     </>
