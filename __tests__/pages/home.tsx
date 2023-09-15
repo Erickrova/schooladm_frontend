@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
-import useAuth from "../../../hooks/useAuth"
-import Home from "../../../pages"
+import useAuth from "../../hooks/useAuth"
+import Home from "../../pages"
+import React from "react"
 
-jest.mock("../../../hooks/useAuth")
+jest.mock("../../hooks/useAuth")
 const useRouter = jest.spyOn(require("next/router"), "useRouter")
 const router = {
   push: jest.fn(),

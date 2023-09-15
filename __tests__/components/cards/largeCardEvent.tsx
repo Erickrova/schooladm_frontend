@@ -3,6 +3,7 @@ import "@testing-library/jest-dom/extend-expect"
 import LargeCardEvent from "../../../components/cards/LargeCardEvent"
 import useAuth from "../../../hooks/useAuth"
 import useEvent from "../../../hooks/useEvent"
+import React from "react"
 
 jest.mock("../../../hooks/useAuth")
 jest.mock("../../../hooks/useEvent")

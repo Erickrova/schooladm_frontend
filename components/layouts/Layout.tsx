@@ -1,7 +1,6 @@
 import Head from "next/head"
 import Header from "../header/Header"
 import useAuth from "../../hooks/useAuth"
-import { use, useEffect } from "react"
 import { ChildrenProps } from "../../helpers/interfaces"
 
 const Layout = ({ children }: ChildrenProps): JSX.Element => {

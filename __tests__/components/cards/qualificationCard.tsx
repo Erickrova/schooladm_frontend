@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
 import QualificationCard from "../../../components/cards/QualificationCard"
+import React from "react"
 
 describe("<QualificationCard />", () => {
   test("is rendered", () => {

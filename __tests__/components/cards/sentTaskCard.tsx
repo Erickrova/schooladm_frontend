@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react"
 import SentTaskCard from "../../../components/cards/SentTaskCard"
+import React from "react"
 
 describe("<SentTaskCard />", () => {
   test("is rendered", () => {
