@@ -6,7 +6,7 @@ const formatDate = (date: string | number): string => {
     month: "numeric",
     day: "numeric",
   }
-  return newDate.toLocaleDateString("es-ES", opt)
+  return newDate.toLocaleDateString("es-ES")
 }
 
 export default formatDate

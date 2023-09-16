@@ -74,11 +74,16 @@ const TeacherCreateTask = () => {
             <option value={""} disabled>
               Select a career{" "}
             </option>
-            {careers.map((careerr: Careers) => (
-              <option key={String(careerr?._id)} value={String(careerr?._id)}>
-                {careerr?.name}{" "}
-              </option>
-            ))}
+            {careers?.length
+              ? careers?.map((careerr: Careers) => (
+                  <option
+                    key={String(careerr?._id)}
+                    value={String(careerr?._id)}
+                  >
+                    {careerr?.name}{" "}
+                  </option>
+                ))
+              : null}
           </select>
           <div className="flex gap-2 flex-col md:flex-row">
             <select
@@ -87,11 +92,13 @@ const TeacherCreateTask = () => {
               className="p-2 rounded-full w-full mb-2"
             >
               <option value={0}>Select a subject </option>
-              {subjects.map((sbj: Subject) => (
-                <option key={String(sbj?._id)} value={String(sbj?._id)}>
-                  {sbj?.name}
-                </option>
-              ))}
+              {subjects?.length
+                ? subjects.map((sbj: Subject) => (
+                    <option key={String(sbj?._id)} value={String(sbj?._id)}>
+                      {sbj?.name}
+                    </option>
+                  ))
+                : null}
             </select>
             <select
               value={Number(semester)}
@@ -99,11 +106,13 @@ const TeacherCreateTask = () => {
               className="p-2 rounded-full w-full mb-2"
             >
               <option value={0}>Select a semester number </option>
-              {semesterOptions.map((semester) => (
-                <option key={semester.value} value={semester.value}>
-                  {semester.opt}
-                </option>
-              ))}
+              {semesterOptions?.length
+                ? semesterOptions.map((semester) => (
+                    <option key={semester.value} value={semester.value}>
+                      {semester.opt}
+                    </option>
+                  ))
+                : null}
             </select>
           </div>
           <div className="flex justify-center flex-col">
