@@ -65,11 +65,7 @@ const TeacherTask = () => {
           },
         }
         await fetch(
-<<<<<<< HEAD
-          `http://localhost:4000/api/task/get-sent-tasks/${task?._id}`,
-=======
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/get-sent-tasks/${task?._id}`,
->>>>>>> e92022c (adding env backend url)
           init,
         )
           .then((res) => res.json())
