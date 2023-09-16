@@ -21,11 +21,7 @@ const EventProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data = await fetch(
-<<<<<<< HEAD
-        "http://localhost:4000/api/event/get-events",
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/event/get-events`,
->>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -47,11 +43,8 @@ const EventProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data = await fetch(
-<<<<<<< HEAD
-        `http://localhost:4000/api/event/get-event/${id}`,
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/event/get-event/${id}`,
->>>>>>> e92022c (adding env backend url)
+
         init,
       )
         .then((res) => res.json())
@@ -73,11 +66,7 @@ const EventProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data = await fetch(
-<<<<<<< HEAD
-        `http://localhost:4000/api/event/get-student-events/${userId}`,
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/event/get-student-events/${userId}`,
->>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -104,11 +93,8 @@ const EventProvider = ({ children }: ChildrenProps) => {
         body: JSON.stringify(eventData),
       }
       const data: any = await fetch(
-<<<<<<< HEAD
-        "http://localhost:4000/api/event/create",
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/event/create`,
->>>>>>> e92022c (adding env backend url)
+
         init,
       )
         .then((res) => res.json())

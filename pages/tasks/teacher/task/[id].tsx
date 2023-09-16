@@ -40,14 +40,10 @@ const TeacherTask = () => {
           Authorization: `Bearer ${token}`,
         },
       }
-<<<<<<< HEAD
-      fetch(`http://localhost:4000/api/task/get-task/${id}`, init)
-=======
       fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/get-task/${id}`,
         init,
       )
->>>>>>> e92022c (adding env backend url)
         .then((res) => res.json())
         .then((data) => setTask(data))
     }

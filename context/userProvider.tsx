@@ -30,11 +30,7 @@ const UserProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data: Array<User> = await fetch(
-<<<<<<< HEAD
-        "http://localhost:4000/api/user/get-students",
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/get-students`,
->>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -58,11 +54,7 @@ const UserProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data: Array<User> = await fetch(
-<<<<<<< HEAD
-        "http://localhost:4000/api/user/get-teachers",
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/get-teachers`,
->>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -83,14 +75,10 @@ const UserProvider = ({ children }: ChildrenProps) => {
       },
     }
     try {
-<<<<<<< HEAD
-      const data = await fetch("http://localhost:4000/api/user/get-adms", init)
-=======
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/get-adms`,
         init,
       )
->>>>>>> e92022c (adding env backend url)
         .then((res) => res.json())
         .then((data) => data)
       return data
@@ -115,11 +103,7 @@ const UserProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data = await fetch(
-<<<<<<< HEAD
-        `http://localhost:4000/api/user/get-qualifications/${semesterSelected}/${subjectSelected}/${userId}`,
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/get-qualifications/${semesterSelected}/${subjectSelected}/${userId}`,
->>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -145,11 +129,7 @@ const UserProvider = ({ children }: ChildrenProps) => {
         body: JSON.stringify(userObject),
       }
       const data: any = await fetch(
-<<<<<<< HEAD
-        "http://localhost:4000/api/user/register",
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/register`,
->>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -188,11 +168,7 @@ const UserProvider = ({ children }: ChildrenProps) => {
         body: JSON.stringify(params),
       }
       const data = await fetch(
-<<<<<<< HEAD
-        "http://localhost:4000/api/career/add-student-to-semester",
-=======
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career/add-student-to-semester`,
->>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
