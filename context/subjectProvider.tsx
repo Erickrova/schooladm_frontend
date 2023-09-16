@@ -27,7 +27,11 @@ const SubjectProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data: Array<Subject> = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/subject/get-subjects",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/subject/get-subjects`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -53,7 +57,11 @@ const SubjectProvider = ({ children }: ChildrenProps) => {
         body: JSON.stringify(subjectObject),
       }
       const data: any = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/subject/create",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/subject/create`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -92,7 +100,11 @@ const SubjectProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/career/add-subject-to-semester",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career/add-subject-to-semester`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())

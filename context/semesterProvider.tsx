@@ -19,7 +19,11 @@ const SemesterProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data: Array<Semester> = await fetch(
+<<<<<<< HEAD
         `http://localhost:4000/api/career/get-subjects-semesters/${careerId}`,
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career/get-subjects-semesters/${careerId}`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -45,7 +49,11 @@ const SemesterProvider = ({ children }: ChildrenProps) => {
         body: JSON.stringify(semesterObject),
       }
       const data: any = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/career/create/semester",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career/create/semester`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())

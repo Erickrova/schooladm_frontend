@@ -23,7 +23,11 @@ const CareerProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data: Array<Careers> = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/career/get-careers",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career/get-careers`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -50,7 +54,11 @@ const CareerProvider = ({ children }: ChildrenProps) => {
         body: JSON.stringify(careerObject),
       }
       const data: any = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/career/create",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career/create`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())

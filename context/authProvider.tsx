@@ -30,7 +30,11 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         body: JSON.stringify(sessionData),
       }
       const data: any = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/user/login",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/login`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -57,7 +61,11 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       }
       if (token) {
         try {
+<<<<<<< HEAD
           const url = `http://localhost:4000/api/user/profile`
+=======
+          const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile`
+>>>>>>> e92022c (adding env backend url)
           await fetch(url, init)
             .then((res) => res.json())
             .then((dat) => setAuth(dat))
@@ -79,7 +87,13 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     try {
       // getting user profile
       if (auth._id) {
+<<<<<<< HEAD
         fetch(`http://localhost:4000/api/user/get-user/${auth?._id}`)
+=======
+        fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/get-user/${auth?._id}`,
+        )
+>>>>>>> e92022c (adding env backend url)
           .then((res) => res.json())
           .then((res) => setProfile(res))
       }

@@ -121,7 +121,11 @@ const TasksProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const data = await fetch(
+<<<<<<< HEAD
         `http://localhost:4000/api/task/get-student-sent-task/${taskId}/${userId}`,
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/get-student-sent-task/${taskId}/${userId}`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -214,7 +218,11 @@ const TasksProvider = ({ children }: ChildrenProps) => {
     }
     try {
       const msg = await fetch(
+<<<<<<< HEAD
         "http://localhost:4000/api/task/qualify-task",
+=======
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/qualify-task`,
+>>>>>>> e92022c (adding env backend url)
         init,
       )
         .then((res) => res.json())
@@ -273,18 +281,30 @@ const TasksProvider = ({ children }: ChildrenProps) => {
           Authorization: `Bearer ${token}`,
         },
       }
+<<<<<<< HEAD
       fetch("http://localhost:4000/api/task/get-tasks", init)
+=======
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/get-tasks`, init)
+>>>>>>> e92022c (adding env backend url)
         .then((res) => res.json())
         .then((data) => setTasks(data))
       if (auth.rank == 1) {
         fetch(
+<<<<<<< HEAD
           `http://localhost:4000/api/task/get-student-tasks/${auth._id}`,
+=======
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/get-student-tasks/${auth._id}`,
+>>>>>>> e92022c (adding env backend url)
           init,
         )
           .then((res) => res.json())
           .then((data) => setStudentTasks(data))
         fetch(
+<<<<<<< HEAD
           `http://localhost:4000/api/task/get-qualified-tasks/${auth._id}`,
+=======
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/task/get-qualified-tasks/${auth._id}`,
+>>>>>>> e92022c (adding env backend url)
           init,
         )
           .then((res) => res.json())
